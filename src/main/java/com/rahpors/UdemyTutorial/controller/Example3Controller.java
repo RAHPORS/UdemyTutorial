@@ -24,7 +24,7 @@ public class Example3Controller {
     private static final Log LOGGER = LogFactory.getLog(Example3Controller.class);
 
     public static final String EXAMPLE_VIEW = "form";
-    public static final String RESULT_VIEW = "form";
+    public static final String RESULT_VIEW = "result";
 
     //Forma 1
 //    @GetMapping("/")
@@ -50,8 +50,10 @@ public class Example3Controller {
 
     @PostMapping("/addperson")
     public ModelAndView addPerson(@ModelAttribute("person") Person person){
+        LOGGER.info("Method: 'addperson' --Params: '"+person+"'");
         ModelAndView modelAndView = new ModelAndView(RESULT_VIEW);
         modelAndView.addObject("person", person);
+        LOGGER.info("Template: "+RESULT_VIEW+"'"+"'DATA: "+person+"'");
         return modelAndView;
     }
 
