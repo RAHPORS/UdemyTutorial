@@ -1,6 +1,8 @@
 package com.rahpors.UdemyTutorial.controller;
 
 import com.rahpors.UdemyTutorial.model.Person;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ import java.util.Map;
 @RequestMapping("/example3")
 public class Example3Controller {
 
+    private static final Log LOGGER = LogFactory.getLog(Example3Controller.class);
+
     public static final String EXAMPLE_VIEW = "form";
     public static final String RESULT_VIEW = "form";
 
@@ -36,6 +40,10 @@ public class Example3Controller {
 
     @GetMapping("/showform")
     public String showForm(Model model){
+        LOGGER.info("INFO");
+        LOGGER.warn("WARN");
+        LOGGER.error("ERROR");
+        LOGGER.debug("DEBUG");
         model.addAttribute("person", new Person());
         return EXAMPLE_VIEW;
     }
