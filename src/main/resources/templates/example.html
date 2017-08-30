@@ -14,8 +14,8 @@
         </thead>
         <tbody th:each="person: ${people}">
         <tr>
-            <th th:text = "$person.name"></th>
-            <th th:text = "$person.age"></th>
+            <th th:text = "${person.name}"></th>
+            <th th:text = "${person.age}"></th>
         </tr>
         </tbody>
     </table>
