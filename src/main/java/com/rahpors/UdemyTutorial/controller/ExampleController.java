@@ -1,6 +1,9 @@
 package com.rahpors.UdemyTutorial.controller;
 
+import com.rahpors.UdemyTutorial.componet.ExampleComponent;
 import com.rahpors.UdemyTutorial.model.Person;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +23,13 @@ public class ExampleController {
 
     public static final String EXAMPLE_VIEW = "example";
 
+    @Autowired
+    @Qualifier("exampleComponent")
+    private ExampleComponent exampleComponent;
     //Primer forma
     @GetMapping("/exampleString")
     public String exampleString(Model model){
+        exampleComponent.sayHello();
         model.addAttribute("people",getPeople());
         return EXAMPLE_VIEW;
     }
