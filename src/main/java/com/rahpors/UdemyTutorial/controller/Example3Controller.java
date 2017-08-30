@@ -5,12 +5,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.jws.WebParam;
+import javax.validation.Valid;
 import java.util.Collection;
 import java.util.Map;
 
@@ -49,11 +51,15 @@ public class Example3Controller {
     }
 
     @PostMapping("/addperson")
-    public ModelAndView addPerson(@ModelAttribute("person") Person person){
-        LOGGER.info("Method: 'addperson' --Params: '"+person+"'");
-        ModelAndView modelAndView = new ModelAndView(RESULT_VIEW);
-        modelAndView.addObject("person", person);
-        LOGGER.info("Template: "+RESULT_VIEW+"'"+"'DATA: "+person+"'");
+    public ModelAndView addPerson(@Valid @ModelAttribute("person") Person person, BindingResult bindingResult){
+        ModelAndView modelAndView = new ModelAndView();
+        if(bindingResult.hasErrors()){
+            modelAndView.setViewName(EXAMPLE_VIEW);
+        }
+        else {
+            modelAndView.setViewName(RESULT_VIEW);
+            modelAndView.addObject("person", person);
+        }
         return modelAndView;
     }
 
