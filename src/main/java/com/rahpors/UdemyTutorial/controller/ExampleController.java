@@ -2,6 +2,7 @@ package com.rahpors.UdemyTutorial.controller;
 
 import com.rahpors.UdemyTutorial.componet.ExampleComponent;
 import com.rahpors.UdemyTutorial.model.Person;
+import com.rahpors.UdemyTutorial.service.ExampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -24,13 +25,17 @@ public class ExampleController {
     public static final String EXAMPLE_VIEW = "example";
 
     @Autowired
+    @Qualifier("exampleService")
+    private ExampleService exampleService;
+
+    @Autowired
     @Qualifier("exampleComponent")
     private ExampleComponent exampleComponent;
     //Primer forma
     @GetMapping("/exampleString")
     public String exampleString(Model model){
         exampleComponent.sayHello();
-        model.addAttribute("people",getPeople());
+        model.addAttribute("people",exampleService.getListPeople());
         return EXAMPLE_VIEW;
     }
 
@@ -38,15 +43,9 @@ public class ExampleController {
     @RequestMapping(value = "/exampleMAV", method = RequestMethod.GET)
     public ModelAndView exampleMAV(){
         ModelAndView modelAndView = new ModelAndView(EXAMPLE_VIEW);
-        modelAndView.addObject("people",getPeople());
+        modelAndView.addObject("people",exampleService.getListPeople());
         return modelAndView;
     }
 
-    private List<Person> getPeople(){
-        List<Person> people = new ArrayList<>();
-        people.add(new Person("Ramon",23));
-        people.add(new Person("Naye",23));
-        people.add(new Person("Glori",21));
-        return people;
-    }
+
 }
