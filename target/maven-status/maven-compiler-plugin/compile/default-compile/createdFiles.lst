@@ -1,4 +1,6 @@
+com/rahpors/UdemyTutorial/model/UserCredential.class
 com/rahpors/UdemyTutorial/ServletInitializer.class
 com/rahpors/UdemyTutorial/configuration/WebMvcConfiuration.class
 com/rahpors/UdemyTutorial/componet/RequestTimeInterceptor.class
+com/rahpors/UdemyTutorial/controller/LoginController.class
 com/rahpors/UdemyTutorial/UdemyTutorialApplication.class
