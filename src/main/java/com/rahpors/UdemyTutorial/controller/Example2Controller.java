@@ -1,8 +1,6 @@
 package com.rahpors.UdemyTutorial.controller;
 
-import com.rahpors.UdemyTutorial.model.Person;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
