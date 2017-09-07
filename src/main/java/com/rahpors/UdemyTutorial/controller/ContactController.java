@@ -1,18 +1,21 @@
 package com.rahpors.UdemyTutorial.controller;
 
 import com.rahpors.UdemyTutorial.constant.ViewConstant;
-import com.rahpors.UdemyTutorial.entity.Contact;
 import com.rahpors.UdemyTutorial.model.ContactModel;
 import com.rahpors.UdemyTutorial.service.ContactService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 /**
  * Created by ramon on 5/09/17.
@@ -20,16 +23,18 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/contacts")
 public class ContactController {
+
+    private static final Log LOG = LogFactory.getLog(ContactController.class);
+
     @Autowired
     @Qualifier("contactServiceImpl")
     private ContactService contactService;
-
-    private static final Log LOG = LogFactory.getLog(ContactController.class);
 
     @GetMapping("/cancel")
     private String cancel(){
         return "redirect:/contacts/showcontacts";
     }
+
 
     @GetMapping("/contactform")
     private String redirectContactForm(@RequestParam(name = "id", required = false)int id, Model model){
@@ -55,8 +60,12 @@ public class ContactController {
 
     @GetMapping("/showcontacts")
     private ModelAndView showContacts(){
-        ModelAndView modelAndView = new ModelAndView(ViewConstant.CONTACTS_FORM);
-        modelAndView.addObject("contacts",contactService.listAllContacts());
+
+        ModelAndView modelAndView = new ModelAndView("contacts");
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        modelAndView.addObject("username", user.getUsername());
+        List<ContactModel> list = contactService.listAllContacts();
+        modelAndView.addObject("contacts", list);
         return modelAndView;
     }
 

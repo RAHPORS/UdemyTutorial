@@ -1,13 +1,13 @@
 package com.rahpors.UdemyTutorial.service.impl;
 
 import com.rahpors.UdemyTutorial.componet.ContactConverter;
-import com.rahpors.UdemyTutorial.controller.ContactController;
 import com.rahpors.UdemyTutorial.entity.Contact;
 import com.rahpors.UdemyTutorial.model.ContactModel;
 import com.rahpors.UdemyTutorial.repository.ContactRepository;
 import com.rahpors.UdemyTutorial.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,10 +29,10 @@ public class ContactServiceImpl implements ContactService {
     private ContactConverter contactConverter;
 
     @Override
+    @PreAuthorize("hasRole()")
     public ContactModel addContact(ContactModel contactModel) {
         Contact contact = contactRepository.save(contactConverter.contactModelToContact(contactModel));
         return contactConverter.contactToContactModel(contact);
-
     }
 
     @Override

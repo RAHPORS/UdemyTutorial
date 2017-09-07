@@ -12,7 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
  */
 
 @Configuration
-public class WebMvcConfiuration extends WebMvcConfigurerAdapter{
+public class WebMvcConfiguration extends WebMvcConfigurerAdapter{
     @Autowired
     @Qualifier("requestTimeInterceptor")
     private RequestTimeInterceptor requestTimeInterceptor;
