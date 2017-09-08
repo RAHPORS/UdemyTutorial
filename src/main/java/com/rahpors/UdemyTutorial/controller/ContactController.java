@@ -24,20 +24,20 @@ import java.util.List;
 @RequestMapping("/contacts")
 public class ContactController {
 
-    private static final Log LOG = LogFactory.getLog(ContactController.class);
+    public static final Log LOG = LogFactory.getLog(ContactController.class);
 
     @Autowired
     @Qualifier("contactServiceImpl")
-    private ContactService contactService;
+    public ContactService contactService;
 
     @GetMapping("/cancel")
-    private String cancel(){
+    public String cancel(){
         return "redirect:/contacts/showcontacts";
     }
 
 
     @GetMapping("/contactform")
-    private String redirectContactForm(@RequestParam(name = "id", required = false)int id, Model model){
+    public String redirectContactForm(@RequestParam(name = "id", required = false)int id, Model model){
         ContactModel contactModel = new ContactModel();
         if(id!=0){
             contactModel=contactService.findContactById(id);
@@ -47,7 +47,7 @@ public class ContactController {
     }
 
     @PostMapping("/addContact")
-    private String addContact(@ModelAttribute("contactModel")ContactModel contactModel, Model model){
+    public String addContact(@ModelAttribute("contactModel")ContactModel contactModel, Model model){
         LOG.info("METHOD: addContact() Params: "+ contactModel.toString());
         if(null != contactService.addContact(contactModel)){
             model.addAttribute("result", 1);
@@ -59,7 +59,7 @@ public class ContactController {
     }
 
     @GetMapping("/showcontacts")
-    private ModelAndView showContacts(){
+    public ModelAndView showContacts(){
 
         ModelAndView modelAndView = new ModelAndView("contacts");
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -69,8 +69,9 @@ public class ContactController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/removecontact")
-    private ModelAndView removeContact(@RequestParam(name = "id", required = true) int id){
+    public ModelAndView removeContact(@RequestParam(name = "id", required = true) int id){
         ModelAndView modelAndView = new ModelAndView(ViewConstant.CONTACTS_FORM);
         contactService.removeContact(id);
         modelAndView.addObject("contacts",contactService.listAllContacts());

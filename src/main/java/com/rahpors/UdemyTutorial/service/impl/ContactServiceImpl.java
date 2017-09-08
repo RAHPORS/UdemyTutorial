@@ -29,7 +29,7 @@ public class ContactServiceImpl implements ContactService {
     private ContactConverter contactConverter;
 
     @Override
-    @PreAuthorize("hasRole()")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ContactModel addContact(ContactModel contactModel) {
         Contact contact = contactRepository.save(contactConverter.contactModelToContact(contactModel));
         return contactConverter.contactToContactModel(contact);
